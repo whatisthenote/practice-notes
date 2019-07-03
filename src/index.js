@@ -6,9 +6,9 @@ class Layout extends React.Component {
 		var title = "TITLE";
 		return (
 			<div>
-				<div>HELLO </div>
 				<Header title={title} name="NAME" />
 				<Header title={"OTHER TITLE"} name="NAME" />
+				<div>HELLO </div>
 			</div>
 		);
 	}
@@ -16,7 +16,17 @@ class Layout extends React.Component {
 
 class Header extends React.Component {
 	render() {
-		return <div>{console.log(this.props)}</div>;
+		return (
+			<div>
+				<Title title={this.props.title} />
+			</div>
+		);
+	}
+}
+
+class Title extends React.Component {
+	render() {
+		return <h1>{this.props.title}</h1>;
 	}
 }
 
