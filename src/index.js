@@ -7,6 +7,9 @@ class Layout extends React.Component {
 		this.state = { name: "NAME" };
 	}
 	render() {
+		setTimeout(() => {
+			this.setState({ name: "NAME2" });
+		}, 1000);
 		return <div>HELLO {this.state.name}</div>;
 	}
 }
