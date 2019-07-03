@@ -1,4 +1,4 @@
-# Practise
+# Practice
 
 # _props_ vs _state_
 
