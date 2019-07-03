@@ -2,11 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 class Layout extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			title: "Welcome"
+		};
+	}
 	render() {
-		var title = "TITLE";
+		setTimeout(() => {
+			this.setState({ title: "Welcome 2" });
+		}, 1000);
 		return (
 			<div>
-				<Header title={title} name="NAME" />
+				<Header title={this.state.title} name="NAME" />
 				<Header title={"OTHER TITLE"} name="NAME" />
 				<div>HELLO </div>
 			</div>
