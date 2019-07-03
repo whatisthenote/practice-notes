@@ -1,13 +1,12 @@
-# practise
+# Practise
 
-_props_ vs _state_
-======
+# _props_ vs _state_
 
-Ever since we started using [React](http://facebook.github.io/react/) to rebuild our UI at [uberVU](https://www.ubervu.com/) (now [Hootsuite](https://hootsuite.com/)) the #1 developer question has probably been: 
+Ever since we started using [React](http://facebook.github.io/react/) to rebuild our UI at [uberVU](https://www.ubervu.com/) (now [Hootsuite](https://hootsuite.com/)) the #1 developer question has probably been:
 
 > What's the exact difference between _props_ and _state_?
 
-It's fairly easy to understand how they work—especially when seen in context—but it's also a bit difficult to grasp them conceptually. It's confusing at first because they both have abstract terms and their values look the same, but they also have very different _roles._ 
+It's fairly easy to understand how they work—especially when seen in context—but it's also a bit difficult to grasp them conceptually. It's confusing at first because they both have abstract terms and their values look the same, but they also have very different _roles._
 
 ### Context
 
@@ -37,33 +36,33 @@ A Component cannot change its _props,_ but it is responsible for putting togethe
 
 #### _state_
 
-The _state_ starts with a default value when a Component mounts and then **suffers from mutations in time (mostly generated from user events).** It's a serializable* representation of one point in time—a snapshot.
+The _state_ starts with a default value when a Component mounts and then **suffers from mutations in time (mostly generated from user events).** It's a serializable\* representation of one point in time—a snapshot.
 
 A Component manages its own _state_ internally, but—besides setting an initial state—has no business fiddling with the _state_ of its children. You could say the state is **private.**
 
-\* We didn't say _props_ are also serializable because it's pretty common to pass down callback functions through _props._ 
+\* We didn't say _props_ are also serializable because it's pretty common to pass down callback functions through _props._
 
 #### Changing _props_ and _state_
 
-| | _props_ | _state_ | 
---- | --- | --- 
-Can get initial value from parent Component? | Yes | Yes
-Can be changed by parent Component? | Yes | No
-Can set default values inside Component?* | Yes | Yes
-Can change inside Component? | No | Yes
-Can set initial value for child Components? | Yes | Yes
-Can change in child Components? | Yes | No
+|                                              | _props_ | _state_ |
+| -------------------------------------------- | ------- | ------- |
+| Can get initial value from parent Component? | Yes     | Yes     |
+| Can be changed by parent Component?          | Yes     | No      |
+| Can set default values inside Component?\*   | Yes     | Yes     |
+| Can change inside Component?                 | No      | Yes     |
+| Can set initial value for child Components?  | Yes     | Yes     |
+| Can change in child Components?              | Yes     | No      |
 
 \* Note that both _props_ and _state_ initial values received from parents override default values defined inside a Component.
 
-### Should this Component have _state_? 
+### Should this Component have _state_?
 
 _state_ is optional. Since _state_ increases complexity and reduces predictability, a Component without _state_ is preferable. Even though you clearly can't do without state in an interactive app, you should avoid having too many _Stateful Components._
 
 #### Component types
 
-* **Stateless Component** — Only _props_, no _state._ There's not much going on besides the `render()` function and all their logic revolves around the _props_ they receive. This makes them very easy to follow (and test for that matter). We sometimes call these _dumb-as-f*ck Components_ (which [turns out](http://www.urbandictionary.com/define.php?term=dumb%20as%20fuck) to be the only way to misuse the F-word in the English language).
-* **Stateful Component** — Both _props_ and _state._ We also call these _state managers_. They are in charge of client-server communication (XHR, web sockets, etc.), processing data and responding to user events. These sort of logistics should be encapsulated in a moderate number of _Stateful Components_, while all visualization and formatting logic should move downstream into as many _Stateless Components_ as possible.
+- **Stateless Component** — Only _props_, no _state._ There's not much going on besides the `render()` function and all their logic revolves around the _props_ they receive. This makes them very easy to follow (and test for that matter). We sometimes call these _dumb-as-f\*ck Components_ (which [turns out](http://www.urbandictionary.com/define.php?term=dumb%20as%20fuck) to be the only way to misuse the F-word in the English language).
+- **Stateful Component** — Both _props_ and _state._ We also call these _state managers_. They are in charge of client-server communication (XHR, web sockets, etc.), processing data and responding to user events. These sort of logistics should be encapsulated in a moderate number of _Stateful Components_, while all visualization and formatting logic should move downstream into as many _Stateless Components_ as possible.
 
 ### Sources of truth
 
