@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-testtest
-
 class Layout extends React.Component {
 	constructor() {
 		super();
@@ -23,7 +21,6 @@ class Layout extends React.Component {
 		);
 	}
 }
-
 class Header extends React.Component {
 	render() {
 		return (
@@ -33,7 +30,6 @@ class Header extends React.Component {
 		);
 	}
 }
-
 class Title extends React.Component {
 	render() {
 		return <h1>{this.props.title}</h1>;
