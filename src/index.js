@@ -1,46 +1,50 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
-const API = "https://hn.algolia.com/api/v1/search?query=";
-const QUERY = "javaScript";
+const API = "https://jsonplaceholder.typicode.com/users";
 
 class App extends Component {
 	constructor() {
 		super();
-		this.state = { list: [], isLoading: true };
+		this.state = { data: [], isLoading: true };
 	}
 	componentDidMount() {
-		fetch(API + QUERY)
+		fetch(API)
 			.then(resp => resp.json())
-			.then(data => this.setState({ list: data.hits, isLoading: false }));
+			.then(data => this.setState({ data, isLoading: false }));
 	}
 	render() {
-		const { list, isLoading } = this.state;
-		if (isLoading) return <h1>Loading...</h1>;
+		const { data, isLoading } = this.state;
+		if (isLoading) return <h3>Loading...</h3>;
 		return (
 			<div>
-				<h1>LIST</h1>
-				<Error>
-					<List list={list} />
-				</Error>
+				<h1>Usernames</h1>
+				<ErrorBoundary>
+					<Usernames data={data} />
+				</ErrorBoundary>
 			</div>
 		);
 	}
 }
-function List({ list }) {
+function Usernames({ data }) {
+	// throw new Error()
 	return (
 		<div>
-			{list.map(res => {
+			{data.map(res => {
 				return (
-					<li key={res.objectID}>
-						<a href={res.url}>{res.title}</a>
-					</li>
+					<div key={res.id}>
+						<h2>{res.username}</h2>
+						<p>
+							{res.email}, {res.id}
+						</p>
+						<hr />
+					</div>
 				);
 			})}
 		</div>
 	);
 }
-class Error extends Component {
+class ErrorBoundary extends Component {
 	constructor() {
 		super();
 		this.state = { error: false };
@@ -49,7 +53,7 @@ class Error extends Component {
 		this.setState({ error: true });
 	}
 	render() {
-		if (this.state.error) return <p>Error</p>;
+		if (this.state.error) return <p>:(</p>;
 		return this.props.children;
 	}
 }
