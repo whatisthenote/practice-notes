@@ -2,44 +2,43 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
 const API = "https://hn.algolia.com/api/v1/search?query=";
-const QUERY = "java";
+const QUERY = "javaScript";
 
 class App extends Component {
 	constructor() {
 		super();
-		this.state = { data: [], isLoading: false };
+		this.state = { list: [], isLoading: false };
 	}
 	componentDidMount() {
 		this.setState({ isLoading: true });
 		fetch(API + QUERY)
 			.then(resp => resp.json())
-			.then(data => this.setState({ data: data.hits, isLoading: false }));
+			.then(data => this.setState({ list: data.hits, isLoading: false }));
 	}
 	render() {
-		const { data, isLoading } = this.state;
-		if (isLoading) return <p>Loading...</p>;
+		const { list, isLoading } = this.state;
+		if (isLoading) return <h1>Loading...</h1>;
 		return (
 			<div>
 				<h1>LIST</h1>
 				<Error>
-					<List data={data} />
+					<List list={list} />
 				</Error>
 			</div>
 		);
 	}
 }
-function List({ data }) {
-	if (true) {
-		throw new Error("error");
-	}
+function List({ list }) {
 	return (
-		<ul>
-			{data.map(hit => (
-				<li key={hit.objectID}>
-					<a href={hit.url}>{hit.title}</a>
-				</li>
-			))}
-		</ul>
+		<div>
+			{list.map(res => {
+				return (
+					<li key={res.objectID}>
+						<a href={res.url}>{res.title}</a>
+					</li>
+				);
+			})}
+		</div>
 	);
 }
 class Error extends Component {
@@ -51,9 +50,7 @@ class Error extends Component {
 		this.setState({ error: true });
 	}
 	render() {
-		if (this.state.error) {
-			return <p>:(</p>;
-		}
+		if (this.state.error) return <p>ERROR</p>;
 		return this.props.children;
 	}
 }
