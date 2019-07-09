@@ -6,23 +6,26 @@ const API = "https://jsonplaceholder.typicode.com/users";
 class App extends Component {
 	constructor() {
 		super();
-		this.state = { data: [], isLoading: true };
+		this.state = { data: [], isLoading: false };
+		console.log("cons")
 	}
 	componentDidMount() {
+		this.setState({isLoading:true})
 		fetch(API)
 			.then(resp => resp.json())
 			.then(data => this.setState({ data, isLoading: false }));
+			console.log("mount")
 	}
 	render() {
 		const { data, isLoading } = this.state;
 		if (isLoading) return <h3>Loading...</h3>;
 		return (
 			<div>
-				<h1>Usernames</h1>
+				<h1>Usernames</h1> 
 				<ErrorBoundary>
 					<Usernames data={data} />
 				</ErrorBoundary>
-			</div>
+				{console.log("redner")}</div> 
 		);
 	}
 }
