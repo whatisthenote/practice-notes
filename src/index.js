@@ -7,10 +7,9 @@ const QUERY = "javaScript";
 class App extends Component {
 	constructor() {
 		super();
-		this.state = { list: [], isLoading: false };
+		this.state = { list: [], isLoading: true };
 	}
 	componentDidMount() {
-		this.setState({ isLoading: true });
 		fetch(API + QUERY)
 			.then(resp => resp.json())
 			.then(data => this.setState({ list: data.hits, isLoading: false }));
@@ -50,7 +49,7 @@ class Error extends Component {
 		this.setState({ error: true });
 	}
 	render() {
-		if (this.state.error) return <p>ERROR</p>;
+		if (this.state.error) return <p>Error</p>;
 		return this.props.children;
 	}
 }
