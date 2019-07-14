@@ -1,91 +1,37 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Postform extends Component {
+class Postform extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: "",
-			comment: ""
+			firstName: "",
+			age: ""
 		};
 	}
-	change = event => {
-		this.setState({ [event.target.name]: event.target.value });
+	handleFirstNameChange = event => {
+		const firstName = event.target.value;
+		this.setState({ firstName: firstName });
 	};
-	submit = event => {
+	handleAgeChange = event => {
+		const age = event.target.value;
+		this.setState({ age: age });
+	};
+	handleSubmit = event => {
 		event.preventDefault();
-		const post = {
-			title: this.state.title,
-			comment: this.state.comment
-		};
-		fetch("https://jsonplaceholder.typicode.com/posts", {
-			method: "post",
-			body: JSON.stringify(post),
-			headers: {
-				"content-type": "application/json"
-			}
-		})
-			.then(resp => resp.json())
-			.then(data => console.log(data));
+		const { firstName, age } = this.state;
+		console.log(`A first name was submitted: ${firstName}. An age was submitted: ${age}`);
 	};
 	render() {
 		return (
-			<div>
-				<h1>ADD POST</h1>
-				<form onSubmit={this.submit}>
-					<div>
-						Title: <input name="title" value={this.state.title} onChange={this.change} />
-						Comment: <textarea name="comment" value={this.state.body} onChange={this.change} />
-					</div>
-					<button type="submit">Submit</button>
-				</form>
-			</div>
+			<form onSubmit={this.handleSubmit}>
+				First Name:
+				<input name="firstName" type="text" value={this.state.firstName} onChange={this.handleFirstNameChange} />
+				Age:
+				<input name="age" type="number" value={this.state.age} onChange={this.handleAgeChange} />
+				<input type="submit" value="Submit" />
+			</form>
 		);
 	}
 }
-
-// class Postform extends Component {
-// 	constructor(props) {
-// 		super(props);
-// 		this.state = {
-// 			title: "",
-// 			body: ""
-// 		};
-// 	}
-// 	change = event => {
-// 		this.setState({ [event.target.name]: event.target.value });
-// 	};
-// 	submit = event => {
-// 		event.preventDefault();
-// 		const post = {
-// 			title: this.state.title,
-// 			body: this.state.body
-// 		};
-// 		fetch("https://jsonplaceholder.typicode.com/posts", {
-// 			method: "POST",
-// 			headers: {
-// 				"content-type": "application/json"
-// 			},
-// 			body: JSON.stringify(post)
-// 		})
-// 			.then(resp => resp.json())
-// 			.then(data => console.log(data));
-// 	};
-// 	render() {
-// 		return (
-// 			<div>
-// 				<h1>ADD POST</h1>
-// 				<form onSubmit={this.submit}>
-// 					<div>
-// 						<label>Title: </label>
-// 						<input name="title" value={this.state.title} onChange={this.change} />
-// 						<label>Body: </label>
-// 						<textarea name="body" value={this.state.body} onChange={this.change} />
-// 					</div>
-// 					<button type="submit">Submit</button>
-// 				</form>
-// 			</div>
-// 		);
-// 	}
-// }
 
 export default Postform;
