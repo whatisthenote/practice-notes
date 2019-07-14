@@ -6,25 +6,31 @@ export default class Postform extends Component {
 		lname: "",
 		password: ""
 	};
+	change = e => {
+		this.setState({ [e.target.name]: e.target.value });
+	};
 	render() {
 		return (
 			<div>
 				{console.log(this.state)}
 				<form>
 					<input
+						name="fname"
 						placeholder="first name"
 						value={this.state.fname}
-						onChange={e => this.setState({ fname: e.target.value })}
+						onChange={e => this.change(e)}
 					/>
 					<input
-						placeholder="lname"
+						name="lname"
+						placeholder="last name"
 						value={this.state.lname}
-						onChange={e => this.setState({ lname: e.target.value })}
+						onChange={e => this.change(e)}
 					/>
 					<input
+						name="password"
 						placeholder="password"
 						value={this.state.password}
-						onChange={e => this.setState({ password: e.target.value })}
+						onChange={e => this.change(e)}
 					/>
 				</form>
 			</div>
