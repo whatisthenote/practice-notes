@@ -9,10 +9,18 @@ export default class Postform extends Component {
 	change = e => {
 		this.setState({ [e.target.name]: e.target.value });
 	};
+	submitForm = e => {
+		e.preventDefault();
+		this.props.submit(this.state);
+		this.setState({
+			fname: "",
+			lname: "",
+			password: ""
+		});
+	};
 	render() {
 		return (
 			<div>
-				{console.log(this.state)}
 				<form>
 					<input
 						name="fname"
@@ -32,6 +40,7 @@ export default class Postform extends Component {
 						value={this.state.password}
 						onChange={e => this.change(e)}
 					/>
+					<button onClick={e => this.submitForm(e)}>Submit</button>
 				</form>
 			</div>
 		);
@@ -63,7 +72,7 @@ export default class Postform extends Component {
 // 	};
 // 	render() {
 // 		return (
-// 			<form onSubmit={this.handleSubmit}>
+// 			<form submitForm={this.handleSubmit}>
 // 				First Name:
 // 				<input name="firstName" type="text" value={this.state.firstName} onChange={this.handleFirstNameChange} />
 // 				Age:
