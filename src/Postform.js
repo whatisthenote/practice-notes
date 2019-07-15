@@ -11,7 +11,7 @@ export default class Postform extends Component {
 	change = e => this.setState({ [e.target.name]: e.target.value });
 	submit = e => {
 		e.preventDefault();
-		this.props.toProps(this.state);
+		this.props.func(this.state)
 	};
 	render() {
 		return (
