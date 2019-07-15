@@ -3,10 +3,21 @@ import Posts from "./Posts";
 import PostForm from "./Postform";
 
 class App extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			x: {}
+		};
+	}
+
+	func = x => {
+		this.setState({ x });
+	};
 	render() {
 		return (
 			<div>
-				<PostForm func={x => console.log(x)} />
+				<PostForm toProps={field => this.func(field)} />
+				<p>{JSON.stringify(this.state.x)}</p>
 				<Posts />
 			</div>
 		);

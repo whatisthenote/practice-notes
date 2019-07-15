@@ -8,10 +8,16 @@ export default class Postform extends Component {
 			password: ""
 		};
 	}
-	change = e => this.setState({ [e.target.name]: e.target.value });
+	change = e => {
+		this.setState({ [e.target.name]: e.target.value });
+	};
 	submit = e => {
 		e.preventDefault();
-		this.props.func(this.state)
+		this.props.toProps(this.state);
+		this.setState({
+			username: "",
+			password: ""
+		});
 	};
 	render() {
 		return (
@@ -19,14 +25,14 @@ export default class Postform extends Component {
 				<form>
 					<input
 						placeholder="username"
-						name="username"
 						value={this.state.username}
+						name="username"
 						onChange={e => this.change(e)}
 					/>
 					<input
 						placeholder="password"
-						name="password"
 						value={this.state.password}
+						name="password"
 						onChange={e => this.change(e)}
 					/>
 					<button onClick={e => this.submit(e)}>Sub</button>
