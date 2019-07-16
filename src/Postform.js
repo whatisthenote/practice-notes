@@ -9,11 +9,11 @@ export default class Postform extends Component {
 		};
 	}
 	change = e => {
+		this.props.onChange({[e.target.name]: e.target.value})
 		this.setState({ [e.target.name]: e.target.value });
 	};
 	submit = e => {
 		e.preventDefault();
-		this.props.toProps(this.state);
 		this.setState({
 			username: "",
 			password: ""

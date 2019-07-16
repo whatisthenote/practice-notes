@@ -6,18 +6,22 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			x: {}
+			field: {}
 		};
 	}
-
-	func = x => {
-		this.setState({ x });
+	func = value => {
+		this.setState({
+			field: {
+				...this.state.field,
+				...value
+			}
+		});
 	};
 	render() {
 		return (
 			<div>
-				<PostForm toProps={field => this.func(field)} />
-				<p>{JSON.stringify(this.state.x)}</p>
+				<PostForm onChange={field => this.func(field)} />
+				<p>{JSON.stringify(this.state.field)}</p>
 				<Posts />
 			</div>
 		);
