@@ -1,31 +1,52 @@
 import React, { Component } from "react";
-import Posts from "./Posts";
-import PostForm from "./Postform";
 
-class App extends Component {
+export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			field: {}
 		};
 	}
-	func = value => {
+	func = field => {
 		this.setState({
 			field: {
 				...this.state.field,
-				...value
+				...field
 			}
 		});
 	};
 	render() {
 		return (
 			<div>
-				<PostForm onChange={field => this.func(field)} />
+				<Postform toApp={value => this.func(value)} />
 				<p>{JSON.stringify(this.state.field)}</p>
-				<Posts />
 			</div>
 		);
 	}
 }
-
-export default App;
+class Postform extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { username: "", password: "" };
+	}
+	change = event => {
+		this.setState({ [event.target.name]: event.target.value });
+		this.props.toApp({ [event.target.name]: event.target.value });
+	};
+	submit = event => {
+		event.preventDefault();
+		console.log(this.state);
+		this.setState({ username: "", password: "" });
+	};
+	render() {
+		return (
+			<div>
+				<form>
+					<input name="username" value={this.state.username} onChange={e => this.change(e)} />
+					<input name="password" value={this.state.password} onChange={e => this.change(e)} />
+					<button onClick={e => this.submit(e)}>Submit</button>
+				</form>
+			</div>
+		);
+	}
+}
