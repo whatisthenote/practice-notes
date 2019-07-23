@@ -1,24 +1,31 @@
 import { createStore } from "redux";
 
 const INITIAL_STATE = {
-	activeLesson: null,
-	activeModule: null,
+	activeLesson: {},
+	activeModule: {},
 	modules: [
 		{
 			id: 1,
 			title: "title",
-			array: [{ id: 1, title: "LESSON" }, { id: 2, title: "LESSON2" }]
+			lessons: [{ id: 1, title: "LESSON" }, { id: 2, title: "LESSON2" }]
 		},
 		{
 			id: 2,
 			title: "title2",
-			array: [{ id: 3, title: "LESSON3" }, { id: 4, title: "LESSON4" }]
+			lessons: [{ id: 3, title: "LESSON3" }, { id: 4, title: "LESSON4" }]
 		}
 	]
 };
 
 function reducer(state = INITIAL_STATE, action) {
-	console.log("test");
+	console.log(action);
+	if (action.type === "TOGGLE_LESSON") {
+		return {
+			...state,
+			activeLesson: action.lesson,
+			activeModule: action.module,
+		};
+	}
 	return state;
 }
 

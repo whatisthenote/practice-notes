@@ -1,25 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 
-function toggleLesson(lesson) {
-	console.log(lesson)
-	return {
-		type: "TOGGLE_LESSON",
-		lesson
-	};
-}
-
-function Comp({ arr, dispatch }) {
+function Comp({ modules, dispatch }) {
 	return (
 		<div>
-			{arr.map(i => (
-				<div key={i.id}>
-					<h3>{i.title}</h3>
+			{modules.map(modules => (
+				<div key={modules.id}>
+					<h3>{modules.title}</h3>
 					<ul>
-						{i.array.map(lesson => (
+						{modules.lessons.map(lesson => (
 							<li key={lesson.id}>
 								{lesson.title}
-								<button onClick={() => dispatch(toggleLesson(lesson))}>
+								<button onClick={() => dispatch(toggleLesson(module, lesson))}>
 									btn
 								</button>
 							</li>
@@ -31,4 +23,12 @@ function Comp({ arr, dispatch }) {
 	);
 }
 
-export default connect(state => ({ arr: state.modules }))(Comp);
+function toggleLesson(module, lesson) {
+	return {
+		type: "TOGGLE_LESSON",
+		lesson,
+		module
+	};
+}
+
+export default connect(state => ({ modules: state.modules }))(Comp);
