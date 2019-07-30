@@ -1,174 +1,69 @@
 import React, { Component } from "react";
 import { createStore, combineReducers } from "redux";
+import { Provider, connect } from "react-redux";
 
 export default class App extends Component {
 	render() {
-		return <div>hello darkness my old friend</div>;
+		return (
+			<div>
+				<AppWrapper />
+			</div>
+		);
 	}
 }
 
-// const reducer = (state = 5) => {
-// 	return state
-// }
-// const store = createStore(reducer)
+const ADD = "ADD";
+const action = msg => ({ type: ADD, msg });
+const reducer = (state = "", action) => {
+	switch (action.type) {
+		case ADD:
+			return [...state, action.msg];
+		default:
+			return state;
+	}
+};
+const store = createStore(reducer);
+const mapStateToProps = state => ({ messages: state });
+const mapDispatchToProps = dispatch => ({
+	submitMessage: newMessage => {
+		dispatch(action(newMessage));
+	}
+});
 
-// const store = createStore((state = 5) => state)
-// const currentState = store.getState()
-// console.log(currentState)
+class Comp extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			input: ""
+		};
+	}
+	change = e => this.setState({ input: e.target.value });
+	submit = () => {
+		this.props.submitMessage(this.state.input);
+		console.log(this.props.messages);
+	};
+	render() {
+		return (
+			<div>
+				<input onChange={this.change} />
+				<button onClick={this.submit}>btn</button>
+			</div>
+		);
+	}
+}
+const Container = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Comp);
 
-// const store = createStore((state = { login: false }) => state);
-// const loginAction = () => {
-// 	return {
-// 		type:"LOGIN"
-// 	}
-// }
-//store.dispatch(loginAction())
-
-// const defaultState = {
-// 	login: false
-// };
-// const reducer = (state = defaultState, action) => {
-// 	console.log(action)
-// 	if (action.type === "LOGIN") {
-// 		return {
-// 			login: true
-// 		};
-// 	} else {
-// 		return defaultState;
-// 	}
-// };
-// const store = createStore(reducer);
-// const loginAction = () => {
-// 	return {
-// 		type: "LOGIN"
-// 	};
-// };
-// store.dispatch(loginAction())
-// console.log(store.getState())
-
-// const defaultState = {
-// 	authenticated: false
-// };
-// function reducer(state = defaultState, action) {
-// 	switch (action.type) {
-// 		case "LOGIN":
-// 			return { authenticated: true };
-// 		case "LOGOUT":
-// 			return { authenticated: false };
-// 		default:
-// 			break;
-// 	}
-// }
-// const store = createStore(reducer);
-// function login() {
-// 	return {
-// 		type: "LOGIN"
-// 	};
-// }
-// function logout() {
-// 	return {
-// 		type: "LOGOUT"
-// 	};
-// }
-
-// const LOGIN = "LOGIN";
-// const LOGOUT = "LOGOUT";
-// const defaultState = {
-// 	authenticated: false
-// };
-// function reducer(state = defaultState, action) {
-// 	switch (action.type) {
-// 		case LOGIN:
-// 			return { authenticated: true };
-// 		case LOGOUT:
-// 			return {
-// 				authenticated: false
-// 			};
-// 		default:
-// 			return state;
-// 	}
-// }
-// const store = createStore(reducer);
-// function login() {
-// 	return {
-// 		type: LOGIN
-// 	};
-// }
-// function logout() {
-// 	return {
-// 		type: LOGOUT
-// 	};
-// }
-
-// const ADD = "ADD";
-// function reducer(state = 0, action) {
-// 	switch (action.type) {
-// 		case ADD:
-// 			return state + 1;
-// 		default:
-// 			return state;
-// 	}
-// }
-// const store = createStore(reducer);
-// let count = 0;
-// const addOne = () => (count += 1);
-// store.subscribe(addOne);
-// store.dispatch({ type: ADD });
-// console.log(count);
-// store.dispatch({ type: ADD });
-// console.log(count);
-
-// const INCREMENT = "INCREMENT";
-// const DECREMENT = "DECREMENT";
-// const counter = (state = 0, action) => {
-// 	switch (action.type) {
-// 		case INCREMENT:
-// 			return state + 1;
-// 		case DECREMENT:
-// 			return state - 1;
-// 		default:
-// 			return state;
-// 	}
-// };
-// const LOGIN = "LOGIN";
-// const LOGOUT = "LOGOUT";
-// const userLogin = (state = { authenticated: false }, action) => {
-// 	switch (action.type) {
-// 		case LOGIN:
-// 			return {
-// 				authenticated: true
-// 			};
-// 		case LOGOUT:
-// 			return {
-// 				authenticated: false
-// 			};
-// 		default:
-// 			return state;
-// 	}
-// };
-// const rootReducer = combineReducers({
-// 	auth: userLogin,
-// 	count: counter
-// });
-// const store = createStore(rootReducer);
-// store.dispatch({type:LOGIN})
-
-// const ADD_NOTE = "ADD_NOTE";
-// const notes = (state = "Initial state", action) => {
-// 	switch (action.type) {
-// 		case ADD_NOTE:
-// 			return action.text;
-// 		default:
-// 			return state;
-// 	}
-// };
-// const addText = note => {
-// 	return {
-// 		type: ADD_NOTE,
-// 		text: note
-// 	};
-// };
-// const store = createStore(notes);
-// console.log(store.getState())
-// store.dispatch(addText("HELLO"))
-// console.log(store.getState())
+class AppWrapper extends Component {
+	render() {
+		return (
+			<div>
+				<Provider store={store}>
+					<Container />
+				</Provider>
+			</div>
+		);
+	}
+}
