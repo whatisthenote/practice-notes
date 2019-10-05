@@ -1,35 +1,29 @@
 import React, { Component } from "react";
-import { auth, signInWithGoogle, createUserProfileDocument } from "./Firebase";
+import { auth, createUserProfileDocument } from "./Firebase";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: ""
+      user: "",
+      displayName: "fdsfdsdfs",
+      email: "fdsf@fadasdaafs.com",
+      password: "122343224"
     };
   }
 
-  componentDidMount() {
-    auth.onAuthStateChanged(async user => {
-      if (user) {
-        const userRef = await createUserProfileDocument(user);
-        userRef.onSnapshot(snapshot => {
-          this.setState({
-            user: {
-              id: snapshot.id,
-              ...snapshot.data()
-            }
-          });
-        });
-      }
-    });
-  }
+  submit = async () => {
+    const { displayName, email, password } = this.state;
+
+    const { user } = await auth.createUserWithEmailAndPassword(email, password);
+    createUserProfileDocument(user, { displayName });
+  };
 
   render() {
     return (
       <div>
-        {console.log(this.state.user)}
-        <button onClick={signInWithGoogle}>google</button>
+        {console.log(this.state)}
+        <button onClick={this.submit}>submit</button>
         <button onClick={() => auth.signOut()}>sign out</button>
       </div>
     );
