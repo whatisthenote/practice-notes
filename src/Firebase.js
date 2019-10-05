@@ -33,6 +33,7 @@ export const createUserProfileDocument = async userAuth => {
       createdAt
     });
   }
+  return userRef
 };
 
 export default firebase;

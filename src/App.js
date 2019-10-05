@@ -10,10 +10,17 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged(async user => {
       if (user) {
-        this.setState({ user });
-        createUserProfileDocument(user);
+        const userRef = await createUserProfileDocument(user);
+        userRef.onSnapshot(snapshot => {
+          this.setState({
+            user: {
+              id: snapshot.id,
+              ...snapshot.data()
+            }
+          });
+        });
       }
     });
   }
@@ -21,6 +28,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
+        {console.log(this.state.user)}
         <button onClick={signInWithGoogle}>google</button>
         <button onClick={() => auth.signOut()}>sign out</button>
       </div>
