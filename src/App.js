@@ -15,36 +15,43 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-var provider = new firebase.auth.GoogleAuthProvider();
-provider.addScope("profile");
-provider.addScope("email");
-provider.setCustomParameters({
-  prompt: "select_account"
-});
-const signInGoogle = () => firebase.auth().signInWithRedirect(provider);
-
 export default class App extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      displayName: "fdfdsfds",
+      email: "fdsfdklj@fdfdddd.com",
+      password: "12341234"
+    };
+  }
+
+  submit = () => {
+    const { email, password, displayName } = this.state;
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .catch(console.log("account already exists"));
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         const userRef = firebase.firestore().doc(`users/${user.uid}`);
         userRef.get().then(snapshot => {
           if (!snapshot.exists) {
             userRef.set({
-              name: user.displayName,
-              email: user.email,
+              email,
+              displayName,
               createdAt: new Date()
             });
           }
         });
       }
     });
-  }
+  };
 
   render() {
     return (
       <div>
-        <button onClick={signInGoogle}>google</button>
+        <button onClick={this.submit}>submit</button>
+        <button onClick={() => firebase.auth().signOut()}>sign out</button>
       </div>
     );
   }
