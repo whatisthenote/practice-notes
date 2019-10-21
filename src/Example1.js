@@ -12,8 +12,6 @@ export default function Example1() {
   );
 }
 
-test
-
 function Nav() {
   return (
     <ul>
