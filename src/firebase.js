@@ -16,7 +16,10 @@ firebase.initializeApp(firebaseConfig);
 
 export const addCollection = (collectionKey, document) => {
   const collectionRef = firebase.firestore().collection(collectionKey);
+  const batch = firebase.firestore().batch();
   document.forEach(obj => {
-    collectionRef.doc().set(obj);
+    const docRef = collectionRef.doc();
+    batch.set(docRef, obj);
   });
+  batch.commit();
 };

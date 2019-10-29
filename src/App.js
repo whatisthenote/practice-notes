@@ -21,7 +21,7 @@ export default function App() {
   ];
 
   useEffect(() => {
-    addCollection("collection", arr);
+    addCollection("arr", arr);
   }, [arr]);
 
   return <div>{console.log()}</div>;
