@@ -1,34 +1,28 @@
-import React, { useEffect, useState } from "react";
-import firebase from "firebase/app";
-import { signInWithGoogle } from "./firebase";
-import "firebase/auth";
+import React, { useEffect } from "react";
+import { addCollection } from "./firebase";
 
 export default function App() {
-  const [user, setUser] = useState("");
+  var arr = [
+    {
+      a: 1,
+      b: [
+        { a: 1, b: 2 },
+        { a: 1, b: 2 },
+        { a: 1, b: 2 },
+        { a: 1, b: 2 },
+        { a: 1, b: 2 },
+        { a: 1, b: 2 },
+        { a: 1, b: 2 }
+      ]
+    },
+    { a: 1, b: 2 },
+    { a: 1, b: 2 },
+    { a: 1, b: 2 }
+  ];
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        setUser(user);
-        const userRef = firebase.firestore().doc(`users/${user.uid}`);
-        userRef.get().then(doc => {
-          if (!doc.exists) {
-            userRef.set({
-              name: user.displayName,
-              email: user.email,
-              date: new Date()
-            });
-          }
-        });
-      }
-    });
-  }, []);
+    addCollection("collection", arr);
+  }, [arr]);
 
-  return (
-    <div>
-      {console.log(user)}
-      <button onClick={signInWithGoogle}>google</button>
-      <button onClick={() => firebase.auth().signOut()}>sign out</button>
-    </div>
-  );
+  return <div>{console.log()}</div>;
 }

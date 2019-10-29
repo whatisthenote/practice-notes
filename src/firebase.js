@@ -14,6 +14,9 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-var provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
-export var signInWithGoogle = () => firebase.auth().signInWithPopup(provider);
+export const addCollection = (collectionKey, document) => {
+  const collectionRef = firebase.firestore().collection(collectionKey);
+  document.forEach(obj => {
+    collectionRef.doc().set(obj);
+  });
+};
