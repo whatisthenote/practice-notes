@@ -14,12 +14,23 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-export const addCollection = (collectionKey, document) => {
-  const collectionRef = firebase.firestore().collection(collectionKey);
-  const batch = firebase.firestore().batch();
-  document.forEach(obj => {
-    const docRef = collectionRef.doc();
-    batch.set(docRef, obj);
+export const auth = firebase.auth();
+export const firestore = firebase.firestore();
+
+const provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
+export const signInWithGoogle = () => auth.signInWithPopup(provider);
+
+export const createUserProfileDocument = user => {
+  const userRef = firestore.doc(`users/${user.uid}`);
+  userRef.get().then(doc => {
+    if (!doc.exists) {
+      userRef.set({
+        displayName: user.displayName,
+        email: user.email,
+        date: new Date()
+      });
+    }
   });
-  batch.commit();
+  return userRef;
 };

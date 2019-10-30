@@ -1,28 +1,23 @@
 import React, { useEffect } from "react";
-import { addCollection } from "./firebase";
+import { signInWithGoogle, auth, createUserProfileDocument } from "./firebase";
 
 export default function App() {
-  var arr = [
-    {
-      a: 1,
-      b: [
-        { a: 1, b: 2 },
-        { a: 1, b: 2 },
-        { a: 1, b: 2 },
-        { a: 1, b: 2 },
-        { a: 1, b: 2 },
-        { a: 1, b: 2 },
-        { a: 1, b: 2 }
-      ]
-    },
-    { a: 1, b: 2 },
-    { a: 1, b: 2 },
-    { a: 1, b: 2 }
-  ];
-
   useEffect(() => {
-    addCollection("arr", arr);
-  }, [arr]);
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        const userRef = createUserProfileDocument(user);
+        userRef.get().then(user => console.log(user.data()));
+        // userRef.onSnapshot(snapshot => {
+        //   console.log(snapshot.data());
+        // });
+      }
+    });
+  }, []);
 
-  return <div>{console.log()}</div>;
+  return (
+    <div>
+      <button onClick={signInWithGoogle}>Google</button>
+      <button onClick={() => auth.signOut()}>Sign out</button>
+    </div>
+  );
 }
