@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchNewsAsync } from "./actions";
+import { fetchNewsStart } from "./actions";
 import Loading from "./Loading";
 
 function News(props) {
   console.log(props);
   return (
     <div>
-      <button onClick={props.fetchNewsAsync}>Click</button>
+      <button onClick={props.fetchNewsStart}>Click</button>
       {props.news.news.map(item => (
         <div key={item.url}>
           <h1>{item.title}</h1>
@@ -25,7 +25,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchNewsAsync: () => dispatch(fetchNewsAsync())
+  fetchNewsStart: () => dispatch(fetchNewsStart())
 });
 
 export default connect(
