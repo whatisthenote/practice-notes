@@ -1,36 +1,48 @@
-import React from "react";
-import { connect } from "react-redux";
-import { fetchStart } from "./actions";
+// import React, { useState, useEffect } from "react";
 
-function App(props) {
-  console.log(props.loading);
+// export default function App() {
+//   const [users, setUsers] = useState([]);
+//   const [search, setSearch] = useState("");
+
+//   useEffect(() => {
+//     fetch(`https://jsonplaceholder.typicode.com/users`)
+//       .then(res => res.json())
+//       .then(users => setUsers(users));
+//   }, [search]);
+
+//   const filterUsers = users.filter(user => user.name.toLowerCase().includes(search));
+//   const searchChange = event => setSearch(event.target.value);
+
+//   return (
+//     <div>
+//       <input type="text" onChange={searchChange} />
+//       {filterUsers.map(user => (
+//         <div key={user.id}>{user.name}</div>
+//       ))}
+//     </div>
+//   );
+// }
+
+import React, { useState, useEffect } from "react";
+
+export default function App() {
+  const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    fetch(`https://jsonplaceholder.typicode.com/users?username=${search}`)
+      .then(res => res.json())
+      .then(users => setUsers(users));
+  }, [search]);
+
+  const searchChange = event => setSearch(event.target.value);
+
   return (
     <div>
-      <button onClick={props.fetchStart}>Click</button>
-      <div>{props.loading ? <p>Loading</p> : null}</div>
-      {props.news.map(item => (
-        <div key={item.url}>
-          <h1>{item.title}</h1>
-          <p>{item.description}</p>
-          <a href={item.url} target="_blank" rel="noopener noreferrer">
-            {item.url}
-          </a>
-        </div>
+      <input type="text" onChange={searchChange} />
+      {users.map(user => (
+        <div key={user.id}>{user.name}</div>
       ))}
     </div>
   );
 }
-
-const mapStateToProps = state => ({
-  news: state.news,
-  loading: state.loading
-});
-
-const mapDispatchToProps = {
-  fetchStart
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
