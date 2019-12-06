@@ -1,33 +1,34 @@
 import React from "react";
-import { Query } from "react-apollo";
+import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 const EXCHANGE_RATES = gql`
-  {
-    rates(currency: "USD") {
-      name
+  query rates($CURRENCY: String!) {
+    rates(currency: $CURRENCY) {
       currency
       rate
     }
   }
 `;
 
-const ExchangeRates = () => (
-  <Query query={EXCHANGE_RATES}>
-    {({ loading, error, data }) => {
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>Error :(</p>;
+export default function ExchangeRates() {
+  const { loading, error, data } = useQuery(EXCHANGE_RATES, {
+    variables: { CURRENCY: "AED" }
+  });
 
-      return data.rates.map(({ name, currency, rate }) => (
+  if (loading) return <p>loading</p>;
+  if (error) return <p>error</p>;
+
+  return (
+    <div>
+      {data.rates.map(({ currency, rate, name }) => (
         <div key={currency}>
           <p>{name}</p>
           <p>{currency}</p>
           <p>{rate}</p>
           <hr />
         </div>
-      ));
-    }}
-  </Query>
-);
-
-export default ExchangeRates;
+      ))}
+    </div>
+  );
+}
